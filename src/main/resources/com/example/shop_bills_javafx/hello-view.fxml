@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shop_bills_javafx.HelloController">
+    <children>
+        <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <AnchorPane layoutX="7.0" layoutY="3.0" prefHeight="400.0" prefWidth="300.0" styleClass="left-form" stylesheets="@loginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="64.0" fitWidth="62.0" layoutX="119.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@img/admin.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="109.0" layoutY="117.0" text="Sign In">
+                            <font>
+                                <Font name="Comic Sans MS" size="24.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="username" layoutX="76.0" layoutY="193.0" promptText="Username" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <PasswordField fx:id="password" layoutX="76.0" layoutY="242.0" promptText="Password" styleClass="textfield" stylesheets="@loginDesign.css" />
+                        <Button fx:id="loginBtn" layoutX="123.0" layoutY="298.0" mnemonicParsing="false" onAction="#login" styleClass="loginbtn" stylesheets="@loginDesign.css" text="Login" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutX="300.0" layoutY="5.0" prefHeight="400.0" prefWidth="300.0" styleClass="right-form" stylesheets="@loginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Button fx:id="close" layoutX="248.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="48.0" styleClass="close" stylesheets="@loginDesign.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                        <ImageView fitHeight="138.0" fitWidth="132.0" layoutX="91.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@img/circuit-board.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="65.0" layoutY="229.0" text="Vaidya Services" textFill="WHITE">
+                            <font>
+                                <Font name="Comic Sans MS Bold" size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </children>
+</StackPane>
