@@ -1,5 +1,7 @@
 package com.example.shop_bills_javafx;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,12 +14,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.event.ActionEvent;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -170,8 +175,6 @@ public class dashboardController implements Initializable {
     private PreparedStatement prepare;
     private Statement statement;
     private ResultSet result;
-
-    // NOW LETS GIVE THEM BEHAVIORS
 //    public void dashboardNC() {
 //        String sql = "SELECT COUNT(id) FROM product_info";
 //
@@ -195,7 +198,7 @@ public class dashboardController implements Initializable {
 //
 //    public void dashboardTI() {
 //        Date date = new Date();
-//        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+//        Date sqlDate = new Date(date.getTime());
 //
 //        String sql = "SELECT SUM(total) FROM product_info WHERE date = '" + sqlDate + "'";
 //
@@ -254,7 +257,7 @@ public class dashboardController implements Initializable {
 //                chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
 //            }
 //
-//            dashboard_NOCChart.getData().add(chart);
+//            dash_NOCChart.getData().add(chart);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
@@ -542,20 +545,20 @@ public class dashboardController implements Initializable {
 //        ObservableList listData = FXCollections.observableArrayList(listCat);
 //        goods_productType.setItems(listData);
 //    }
-//
-//    private String[] status = {"Available", "Not Available"};
-//
-//    public void goodsStatus() {
-//        List<String> listStatus = new ArrayList<>();
-//
-//        for (String data : status) {
-//            listStatus.add(data);
-//        }
-//
-//        ObservableList listData = FXCollections.observableArrayList(listStatus);
-//        goods_productStatus.setItems(listData);
-//    }
-//
+
+    private String[] status = {"Available", "Not Available"};
+
+    public void goodsStatus() {
+        List<String> listStatus = new ArrayList<>();
+
+        for (String data : status) {
+            listStatus.add(data);
+        }
+
+        ObservableList listData = FXCollections.observableArrayList(listStatus);
+        goods_productStatus.setItems(listData);
+    }
+
 //    public void orderAdd() {
 //        orderCustomerId();
 //        orderTotal();
@@ -936,48 +939,48 @@ public class dashboardController implements Initializable {
 //        qty = order_quantity.getValue();
 //    }
 //
-//    public void switchForm(ActionEvent event) {
-//        if (event.getSource() == dashboard_btn) {
-//            dashboard_form.setVisible(true);
-//            goods_form.setVisible(false);
-//            order_form.setVisible(false);
-//
-//            dashboard_btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
-//            avaialbeFD_btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
-//            order_btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
-//
+    public void switchForm(ActionEvent event) {
+        if (event.getSource() == dash_Btn) {
+            dash_form.setVisible(true);
+            goods_form.setVisible(false);
+            order_form.setVisible(false);
+
+            dash_Btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
+            goods_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
+            order_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
+
 //            dashboardNC();
 //            dashboardTI();
 //            dashboardTIncome();
 //            dashboardNOCCChart();
 //            dashboardICC();
-//        } else if (event.getSource() == avaialbeFD_btn) {
-//            dashboard_form.setVisible(false);
-//            goods_form.setVisible(true);
-//            order_form.setVisible(false);
-//
-//            avaialbeFD_btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
-//            dashboard_btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
-//            order_btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
-//
+        } else if (event.getSource() == goods_Btn) {
+            dash_form.setVisible(false);
+            goods_form.setVisible(true);
+            order_form.setVisible(false);
+
+            goods_Btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
+            dash_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
+            order_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
+
 //            goodsShowData();
 //            goodsSearch();
-//        } else if (event.getSource() == order_btn) {
-//            dashboard_form.setVisible(false);
-//            goods_form.setVisible(false);
-//            order_form.setVisible(true);
-//
-//            order_btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
-//            avaialbeFD_btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
-//            dashboard_btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
-//
+        } else if (event.getSource() == order_Btn) {
+            dash_form.setVisible(false);
+            goods_form.setVisible(false);
+            order_form.setVisible(true);
+
+            order_Btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
+            goods_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
+            dash_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
+
 //            orderProductId();
 //            orderProductName();
 //            orderSpinner();
 //            orderDisplayData();
 //            orderDisplayTotal();
-//        }
-//    }
+        }
+    }
 
     private double x = 0;
     private double y = 0;
@@ -1047,9 +1050,8 @@ public class dashboardController implements Initializable {
 //        dashboardTIncome();
 //        dashboardNOCCChart();
 //        dashboardICC();
-//
         displayUsername();
-//        goodsStatus();
+        goodsStatus();
 //        goodsType();
 //
 //        goodsShowData();

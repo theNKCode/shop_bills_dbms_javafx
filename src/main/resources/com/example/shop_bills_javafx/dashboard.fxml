@@ -77,16 +77,16 @@
                               <String fx:value="shadow" />
                            </styleClass>
                            <children>
-                              <Button fx:id="dash_Btn" layoutX="12.0" layoutY="30.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Dashboard" AnchorPane.bottomAnchor="319.0" AnchorPane.topAnchor="30.0" />
-                              <Button fx:id="goods_Btn" layoutX="12.0" layoutY="72.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Available Goods" AnchorPane.topAnchor="70.0" />
-                              <Button fx:id="order_Btn" layoutX="12.0" layoutY="119.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Order" AnchorPane.topAnchor="110.0" />
-                              <Button fx:id="cust_Btn" layoutX="12.0" layoutY="156.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Customers" AnchorPane.topAnchor="150.0" />
-                              <Button fx:id="logout" layoutY="338.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="102.0" styleClass="signout" stylesheets="@dashboardDesign.css" text="Sign Out">
+                              <Button fx:id="dash_Btn" layoutX="12.0" layoutY="30.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Dashboard" AnchorPane.bottomAnchor="319.0" AnchorPane.topAnchor="30.0" />
+                              <Button fx:id="goods_Btn" layoutX="12.0" layoutY="72.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Available Goods" AnchorPane.topAnchor="70.0" />
+                              <Button fx:id="order_Btn" layoutX="12.0" layoutY="119.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Order" AnchorPane.topAnchor="110.0" />
+                              <Button fx:id="cust_Btn" layoutX="12.0" layoutY="156.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="160.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Customers" AnchorPane.topAnchor="150.0" />
+                              <Button fx:id="logout" layoutY="338.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="102.0" styleClass="signout" stylesheets="@dashboardDesign.css" text="Sign Out">
                                  <font>
                                     <Font name="Comic Sans MS Bold" size="12.0" />
                                  </font>
                                  <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="logoutt" fitHeight="30.0" fitWidth="30.0" onDragDetected="#logout" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@img/logout.png" />
                                        </image>
@@ -101,7 +101,7 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
                         <Separator layoutX="-5.0" layoutY="7.0" orientation="VERTICAL" prefHeight="544.0" prefWidth="11.0" />
-                        <AnchorPane fx:id="dash_form" layoutX="4.0" layoutY="1.0" prefHeight="564.8" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dash_form" layoutX="4.0" layoutY="1.0" prefHeight="564.8" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="6.0" layoutY="7.0" prefHeight="174.0" prefWidth="874.0" stylesheets="@dashboardDesign.css">
                                  <styleClass>
