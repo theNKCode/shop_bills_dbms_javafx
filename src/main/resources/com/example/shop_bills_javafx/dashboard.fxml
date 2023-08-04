@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.example.shop_bills_javafx.dashboardController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.shop_bills_javafx.dashboardController">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -61,7 +61,7 @@
                                     <Font name="Comic Sans MS" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="username" layoutX="61.0" layoutY="114.0" prefHeight="22.0" prefWidth="116.0" text="Mr. Vaidya" textFill="WHITE" AnchorPane.leftAnchor="61.0">
+                              <Label fx:id="username" alignment="CENTER" layoutX="61.0" layoutY="113.0" prefHeight="22.0" prefWidth="89.0" text="Mr. Vaidya" textFill="WHITE" AnchorPane.leftAnchor="61.0">
                                  <font>
                                     <Font name="Comic Sans MS Bold" size="14.0" />
                                  </font>
