@@ -2,6 +2,9 @@ package com.example.shop_bills_javafx;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,11 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.event.ActionEvent;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -93,19 +96,22 @@ public class dashboardController implements Initializable {
     private Button goods_updateBtn;
 
     @FXML
-    private TableColumn<?, ?> goodsc_productID;
+    private TableView<items> goodsc_tableView;
 
     @FXML
-    private TableColumn<?, ?> goodsc_productName;
+    private TableColumn<items, String> goodsc_productID;
 
     @FXML
-    private TableColumn<?, ?> goodsc_productPrice;
+    private TableColumn<items, String> goodsc_productName;
 
     @FXML
-    private TableColumn<?, ?> goodsc_productStatus;
+    private TableColumn<items, String> goodsc_productPrice;
 
     @FXML
-    private TableColumn<?, ?> goodsc_productType;
+    private TableColumn<items, String> goodsc_productStatus;
+
+    @FXML
+    private TableColumn<items, String> goodsc_productType;
 
     @FXML
     private Button logout;
@@ -175,7 +181,8 @@ public class dashboardController implements Initializable {
     private PreparedStatement prepare;
     private Statement statement;
     private ResultSet result;
-//    public void dashboardNC() {
+
+    //    public void dashboardNC() {
 //        String sql = "SELECT COUNT(id) FROM product_info";
 //
 //        int nc = 0;
@@ -286,265 +293,267 @@ public class dashboardController implements Initializable {
 //        }
 //    }
 //
-//    public void goodsAdd() {
-//        String sql = "INSERT INTO category (product_id, product_name, type, price, status) " + "VALUES(?,?,?,?,?)";
-//
-//        connect = database.connectDB();
-//
-//        try {
-//            prepare = connect.prepareStatement(sql);
-//            prepare.setString(1, goods_productID.getText());
-//            prepare.setString(2, goods_productName.getText());
-//            prepare.setString(3, (String) goods_productType.getSelectionModel().getSelectedItem());
-//            prepare.setString(4, goods_productPrice.getText());
-//            prepare.setString(5, (String) goods_productStatus.getSelectionModel().getSelectedItem());
-//
-//            Alert alert;
-//
-//            if (goods_productID.getText().isEmpty() || goods_productName.getText().isEmpty() || goods_productType.getSelectionModel() == null || goods_productPrice.getText().isEmpty() || goods_productStatus.getSelectionModel() == null) {
-//                alert = new Alert(AlertType.ERROR);
-//                alert.setTitle("Error Message");
-//                alert.setHeaderText(null);
-//                alert.setContentText("Please fill all blank fields");
-//                alert.showAndWait();
-//            } else {
-//                String checkData = "SELECT product_id FROM category WHERE product_id = '" + goods_productID.getText() + "'";
-//
-//                connect = database.connectDB();
-//
-//                statement = connect.createStatement();
-//                result = statement.executeQuery(checkData);
-//
-//                if (result.next()) {
-//                    alert = new Alert(AlertType.ERROR);
-//                    alert.setTitle("Error Message");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Product ID: " + goods_productID.getText() + " is already exist!");
-//                    alert.showAndWait();
-//                } else {
-//                    prepare.executeUpdate();
-//
-//                    alert = new Alert(AlertType.INFORMATION);
-//                    alert.setTitle("Information Message");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Successfully Added!");
-//                    alert.showAndWait();
-//
-//                    // TO SHOW THE DATA
-//                    goodsShowData();
-//                    // TO CLEAR THE FIELDS
-//                    goodsClear();
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void goodsUpdate() {
-//        String sql = "UPDATE category SET product_name = '" + goods_productName.getText() + "', type = '" + goods_productType.getSelectionModel().getSelectedItem() + "', price = '" + goods_productPrice.getText() + "', status = '" + goods_productStatus.getSelectionModel().getSelectedItem() + "' WHERE product_id = '" + goods_productID.getText() + "'";
-//
-//        connect = database.connectDB();
-//
-//        try {
-//            Alert alert;
-//
-//            if (goods_productID.getText().isEmpty() || goods_productName.getText().isEmpty() || goods_productType.getSelectionModel().getSelectedItem() == null || goods_productPrice.getText().isEmpty() || goods_productStatus.getSelectionModel().getSelectedItem() == null) {
-//                alert = new Alert(AlertType.ERROR);
-//                alert.setTitle("Error Message");
-//                alert.setHeaderText(null);
-//                alert.setContentText("Please fill all blank fields");
-//                alert.showAndWait();
-//            } else {
-//                alert = new Alert(AlertType.CONFIRMATION);
-//                alert.setTitle("Confirmation Message");
-//                alert.setHeaderText(null);
-//                alert.setContentText("Are you sure you want to UPDATE Product ID: " + goods_productID.getText() + "?");
-//
-//                Optional<ButtonType> option = alert.showAndWait();
-//
-//                if (option.get().equals(ButtonType.OK)) {
-//                    alert = new Alert(AlertType.INFORMATION);
-//                    alert.setTitle("Information Message");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Successfully Updated!");
-//                    alert.showAndWait();
-//
-//                    statement = connect.createStatement();
-//                    statement.executeUpdate(sql);
-//
-//                    // TO SHOW THE DATA
-//                    goodsShowData();
-//                    // TO CLEAR THE FIELDS
-//                    goodsClear();
-//                } else {
-//                    alert = new Alert(AlertType.INFORMATION);
-//                    alert.setTitle("Information Message");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Cancelled.");
-//                    alert.showAndWait();
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void goodsDelete() {
-//        String sql = "DELETE FROM category WHERE product_id = '" + goods_productID.getText() + "'";
-//
-//        connect = database.connectDB();
-//
-//        try {
-//            Alert alert;
-//
-//            if (goods_productID.getText().isEmpty() || goods_productName.getText().isEmpty() || goods_productType.getSelectionModel().getSelectedItem() == null || goods_productPrice.getText().isEmpty() || goods_productStatus.getSelectionModel().getSelectedItem() == null) {
-//                alert = new Alert(AlertType.ERROR);
-//                alert.setTitle("Error Message");
-//                alert.setHeaderText(null);
-//                alert.setContentText("Please fill all blank fields");
-//                alert.showAndWait();
-//            } else {
-//                alert = new Alert(AlertType.CONFIRMATION);
-//                alert.setTitle("Confirmation Message");
-//                alert.setHeaderText(null);
-//                alert.setContentText("Are you sure you want to DELETE Product ID: " + goods_productID.getText() + "?");
-//
-//                Optional<ButtonType> option = alert.showAndWait();
-//
-//                if (option.get().equals(ButtonType.OK)) {
-//                    alert = new Alert(AlertType.INFORMATION);
-//                    alert.setTitle("Information Message");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Successfully Deleted!");
-//                    alert.showAndWait();
-//
-//                    statement = connect.createStatement();
-//                    statement.executeUpdate(sql);
-//
-//                    // TO SHOW THE DATA
-//                    goodsShowData();
-//                    // TO CLEAR THE FIELDS
-//                    goodsClear();
-//                } else {
-//                    alert = new Alert(AlertType.INFORMATION);
-//                    alert.setTitle("Information Message");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Cancelled.");
-//                    alert.showAndWait();
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void goodsClear() {
-//        goods_productID.setText("");
-//        goods_productName.setText("");
-//        goods_productType.getSelectionModel().clearSelection();
-//        goods_productPrice.setText("");
-//        goods_productStatus.getSelectionModel().clearSelection();
-//    }
-//
-//    public ObservableList<categories> goodsListData() {
-//        ObservableList<categories> listData = FXCollections.observableArrayList();
-//
-//        String sql = "SELECT * FROM category";
-//
-//        connect = database.connectDB();
-//
-//        try {
-//            prepare = connect.prepareStatement(sql);
-//            result = prepare.executeQuery();
-//
-//            categories cat;
-//
-//            while (result.next()) {
-//                cat = new categories(result.getString("product_id"), result.getString("product_name"), result.getString("type"), result.getDouble("price"), result.getString("status"));
-//
-//                listData.add(cat);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return listData;
-//    }
-//
-//    public void goodsSearch() {
-//        FilteredList<categories> filter = new FilteredList<>(goodsList, e -> true);
-//
-//        goods_search.textProperty().addListener((observabl, newValue, oldValue) -> {
-//            filter.setPredicate(predicateCategories -> {
-//                if (newValue.isEmpty() || newValue == null) {
-//                    return true;
-//                }
-//
-//                String searchKey = newValue.toLowerCase();
-//
-//                if (predicateCategories.getProductId().toLowerCase().contains(searchKey)) {
-//                    return true;
-//                } else if (predicateCategories.getName().toLowerCase().contains(searchKey)) {
-//                    return true;
-//                } else if (predicateCategories.getType().toLowerCase().contains(searchKey)) {
-//                    return true;
-//                } else if (predicateCategories.getPrice().toString().contains(searchKey)) {
-//                    return true;
-//                } else if (predicateCategories.getStatus().toLowerCase().contains(searchKey)) {
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            });
-//        });
-//
-//        SortedList<categories> sortList = new SortedList<>(filter);
-//
-//        sortList.comparatorProperty().bind(goods_tableView.comparatorProperty());
-//        goods_tableView.setItems(sortList);
-//    }
-//
-//    private ObservableList<categories> goodsList;
-//
-//    public void goodsShowData() {
-//        goodsList = goodsListData();
-//
-//        goodsc_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
-//        goodsc_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        goodsc_productType.setCellValueFactory(new PropertyValueFactory<>("type"));
-//        goodsc_productPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-//        goodsc_productStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-//
-//        goods_tableView.setItems(goodsList);
-//    }
-//
-//    public void goodsSelect() {
-//        categories catData = goods_tableView.getSelectionModel().getSelectedItem();
-//
-//        int num = goods_tableView.getSelectionModel().getSelectedIndex();
-//
-//        if ((num - 1) < -1) {
-//            return;
-//        }
-//
-//        goods_productID.setText(catData.getProductId());
-//        goods_productName.setText(catData.getName());
-//        goods_productPrice.setText(String.valueOf(catData.getPrice()));
-//    }
-//
-//    //    AVAILABLE FOODS/DRINKS
-//    private String[] categories = {"Meals", "Drinks"};
-//
-//    public void goodsType() {
-//        List<String> listCat = new ArrayList<>();
-//
-//        for (String data : categories) {
-//            listCat.add(data);
-//        }
-//
-//        ObservableList listData = FXCollections.observableArrayList(listCat);
-//        goods_productType.setItems(listData);
-//    }
+    public void goodsAdd() {
+        String sql = "INSERT INTO items (product_id, product_name, type, price, status) " + "VALUES(?,?,?,?,?)";
+
+        connect = database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, goods_productID.getText());
+            prepare.setString(2, goods_productName.getText());
+            prepare.setString(3, (String) goods_productType.getSelectionModel().getSelectedItem());
+            prepare.setString(4, goods_productPrice.getText());
+            prepare.setString(5, (String) goods_productStatus.getSelectionModel().getSelectedItem());
+
+            Alert alert;
+
+            if (goods_productID.getText().isEmpty() || goods_productName.getText().isEmpty() || goods_productType.getSelectionModel() == null || goods_productPrice.getText().isEmpty() || goods_productStatus.getSelectionModel() == null) {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+            } else {
+                String checkData = "SELECT product_id FROM items WHERE product_id = '" + goods_productID.getText() + "'";
+
+                connect = database.connectDB();
+
+                statement = connect.createStatement();
+                result = statement.executeQuery(checkData);
+
+                if (result.next()) {
+                    alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Product ID: " + goods_productID.getText() + " is already exist!");
+                    alert.showAndWait();
+                } else {
+                    prepare.executeUpdate();
+
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Added!");
+                    alert.showAndWait();
+
+                    // TO SHOW THE DATA
+                    goodsShowData();
+                    // TO CLEAR THE FIELDS
+                    goodsClear();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void goodsUpdate() {
+        String sql = "UPDATE items SET product_name = '" + goods_productName.getText() + "', type = '" + goods_productType.getSelectionModel().getSelectedItem() + "', price = '" + goods_productPrice.getText() + "', status = '" + goods_productStatus.getSelectionModel().getSelectedItem() + "' WHERE product_id = '" + goods_productID.getText() + "'";
+
+        connect = database.connectDB();
+
+        try {
+            Alert alert;
+
+            if (goods_productID.getText().isEmpty() || goods_productName.getText().isEmpty() || goods_productType.getSelectionModel().getSelectedItem() == null || goods_productPrice.getText().isEmpty() || goods_productStatus.getSelectionModel().getSelectedItem() == null) {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+            } else {
+                alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to UPDATE Product ID: " + goods_productID.getText() + "?");
+
+                Optional<ButtonType> option = alert.showAndWait();
+
+                if (option.get().equals(ButtonType.OK)) {
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Updated!");
+                    alert.showAndWait();
+
+                    statement = connect.createStatement();
+                    statement.executeUpdate(sql);
+
+                    // TO SHOW THE DATA
+                    goodsShowData();
+                    // TO CLEAR THE FIELDS
+                    goodsClear();
+                } else {
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Cancelled.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goodsDelete() {
+        String sql = "DELETE FROM items WHERE product_id = '" + goods_productID.getText() + "'";
+
+        connect = database.connectDB();
+
+        try {
+            Alert alert;
+
+            if (goods_productID.getText().isEmpty() || goods_productName.getText().isEmpty() || goods_productType.getSelectionModel().getSelectedItem() == null || goods_productPrice.getText().isEmpty() || goods_productStatus.getSelectionModel().getSelectedItem() == null) {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+            } else {
+                alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to DELETE Product ID: " + goods_productID.getText() + "?");
+
+                Optional<ButtonType> option = alert.showAndWait();
+
+                if (option.get().equals(ButtonType.OK)) {
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Deleted!");
+                    alert.showAndWait();
+
+                    statement = connect.createStatement();
+                    statement.executeUpdate(sql);
+
+                    // TO SHOW THE DATA
+                    goodsShowData();
+                    // TO CLEAR THE FIELDS
+                    goodsClear();
+                } else {
+                    alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Cancelled.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goodsClear() {
+        goods_productID.setText("");
+        goods_productName.setText("");
+        goods_productType.getSelectionModel().clearSelection();
+        goods_productPrice.setText("");
+        goods_productStatus.getSelectionModel().clearSelection();
+    }
+
+    public ObservableList<items> goodsListData() {
+        ObservableList<items> listData = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM items";
+
+        connect = database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            items cat;
+
+            while (result.next()) {
+                cat = new items(result.getString("product_id"), result.getString("product_name"), result.getString("type"), result.getDouble("price"), result.getString("status"));
+
+                listData.add(cat);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listData;
+    }
+
+    public void goodsSearch() {
+        FilteredList<items> filter = new FilteredList<>(goodsList, e -> true);
+
+        goods_search.textProperty().addListener((observabl, newValue, oldValue) -> {
+            filter.setPredicate(predicateitems -> {
+                if (newValue.isEmpty() || newValue == null) {
+                    return true;
+                }
+
+                String searchKey = newValue.toLowerCase();
+
+                if (predicateitems.getProductId().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (predicateitems.getName().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (predicateitems.getType().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (predicateitems.getPrice().toString().contains(searchKey)) {
+                    return true;
+                } else if (predicateitems.getStatus().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+
+        SortedList<items> sortList = new SortedList<>(filter);
+
+        sortList.comparatorProperty().bind(goodsc_tableView.comparatorProperty());
+        goodsc_tableView.setItems(sortList);
+    }
+
+
+    private ObservableList<items> goodsList;
+
+    public void goodsShowData() {
+        goodsList = goodsListData();
+
+        goodsc_productID.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        goodsc_productName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        goodsc_productType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        goodsc_productPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        goodsc_productStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        goodsc_tableView.setItems(goodsList);
+    }
+
+
+    public void goodsSelect() {
+        items catData = goodsc_tableView.getSelectionModel().getSelectedItem();
+
+        int num = goodsc_tableView.getSelectionModel().getSelectedIndex();
+
+        if ((num - 1) < -1) {
+            return;
+        }
+
+        goods_productID.setText(catData.getProductId());
+        goods_productName.setText(catData.getName());
+        goods_productPrice.setText(String.valueOf(catData.getPrice()));
+    }
+
+    private String[] items = {"Electrical", "Electronics"};
+
+    public void goodsType() {
+        List<String> listCat = new ArrayList<>();
+
+        for (String data : items) {
+            listCat.add(data);
+        }
+
+        ObservableList listData = FXCollections.observableArrayList(listCat);
+        goods_productType.setItems(listData);
+    }
 
     private String[] status = {"Available", "Not Available"};
 
@@ -559,7 +568,7 @@ public class dashboardController implements Initializable {
         goods_productStatus.setItems(listData);
     }
 
-//    public void orderAdd() {
+    //    public void orderAdd() {
 //        orderCustomerId();
 //        orderTotal();
 //
@@ -571,7 +580,7 @@ public class dashboardController implements Initializable {
 //            String orderType = "";
 //            double orderPrice = 0;
 //
-//            String checkData = "SELECT * FROM category WHERE product_id = '" + order_productID.getSelectionModel().getSelectedItem() + "'";
+//            String checkData = "SELECT * FROM items WHERE product_id = '" + order_productID.getSelectionModel().getSelectedItem() + "'";
 //
 //            statement = connect.createStatement();
 //            result = statement.executeQuery(checkData);
@@ -882,7 +891,7 @@ public class dashboardController implements Initializable {
 //    }
 //
 //    public void orderProductId() {
-//        String sql = "SELECT product_id FROM category WHERE status = 'Available'";
+//        String sql = "SELECT product_id FROM items WHERE status = 'Available'";
 //
 //        connect = database.connectDb();
 //
@@ -905,7 +914,7 @@ public class dashboardController implements Initializable {
 //    }
 //
 //    public void orderProductName() {
-//        String sql = "SELECT product_name FROM category WHERE product_id = '" + order_productID.getSelectionModel().getSelectedItem() + "'";
+//        String sql = "SELECT product_name FROM items WHERE product_id = '" + order_productID.getSelectionModel().getSelectedItem() + "'";
 //
 //        connect = database.connectDb();
 //
@@ -945,7 +954,7 @@ public class dashboardController implements Initializable {
             goods_form.setVisible(false);
             order_form.setVisible(false);
 
-            dash_Btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
+            dash_Btn.setStyle("-fx-background-color: #6ea8e1; -fx-text-fill: #fff; -fx-border-width: 0px;");
             goods_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
             order_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
 
@@ -959,18 +968,18 @@ public class dashboardController implements Initializable {
             goods_form.setVisible(true);
             order_form.setVisible(false);
 
-            goods_Btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
+            goods_Btn.setStyle("-fx-background-color: #6ea8e1; -fx-text-fill: #fff; -fx-border-width: 0px;");
             dash_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
             order_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
 
-//            goodsShowData();
-//            goodsSearch();
+            goodsShowData();
+            goodsSearch();
         } else if (event.getSource() == order_Btn) {
             dash_form.setVisible(false);
             goods_form.setVisible(false);
             order_form.setVisible(true);
 
-            order_Btn.setStyle("-fx-background-color: #3796a7; -fx-text-fill: #fff; -fx-border-width: 0px;");
+            order_Btn.setStyle("-fx-background-color: #6ea8e1; -fx-text-fill: #fff; -fx-border-width: 0px;");
             goods_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
             dash_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
 
@@ -1052,9 +1061,9 @@ public class dashboardController implements Initializable {
 //        dashboardICC();
         displayUsername();
         goodsStatus();
-//        goodsType();
-//
-//        goodsShowData();
+        goodsType();
+
+        goodsShowData();
 //
 //        orderProductId();
 //        orderProductName();
