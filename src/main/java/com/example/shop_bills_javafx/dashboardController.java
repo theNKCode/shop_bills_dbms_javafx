@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -144,7 +145,7 @@ public class dashboardController implements Initializable {
     private ComboBox<?> order_productName;
 
     @FXML
-    private Spinner<?> order_quantity;
+    private Spinner<Integer> order_quantity;
 
     @FXML
     private Button order_receiptBtn;
@@ -574,7 +575,7 @@ public class dashboardController implements Initializable {
 //
 //        String sql = "INSERT INTO product " + "(customer_id, product_id, product_name, type, price, quantity, date) " + "VALUES(?,?,?,?,?,?,?)";
 //
-//        connect = database.connectDb();
+//        connect = database.connectDB();
 //
 //        try {
 //            String orderType = "";
@@ -622,7 +623,7 @@ public class dashboardController implements Initializable {
 //
 //        String sql = "INSERT INTO product_info (customer_id, total, date) VALUES(?,?,?)";
 //
-//        connect = database.connectDb();
+//        connect = database.connectDB();
 //
 //        try {
 //            Alert alert;
@@ -681,7 +682,7 @@ public class dashboardController implements Initializable {
 //
 //        String sql = "SELECT SUM(price) FROM product WHERE customer_id = " + customerId;
 //
-//        connect = database.connectDb();
+//        connect = database.connectDB();
 //
 //        try {
 //            prepare = connect.prepareStatement(sql);
@@ -732,7 +733,7 @@ public class dashboardController implements Initializable {
 //
 //        String sql = "SELECT * FROM product WHERE customer_id = " + customerId;
 //
-//        connect = database.connectDb();
+//        connect = database.connectDB();
 //
 //        try {
 //            prepare = connect.prepareStatement(sql);
@@ -781,7 +782,7 @@ public class dashboardController implements Initializable {
 //    public void orderRemove() {
 //        String sql = "DELETE FROM product WHERE id = " + item;
 //
-//        connect = database.connectDb();
+//        connect = database.connectDB();
 //
 //        try {
 //            Alert alert;
@@ -859,7 +860,7 @@ public class dashboardController implements Initializable {
 //    public void orderCustomerId() {
 //        String sql = "SELECT customer_id FROM product";
 //
-//        connect = database.connectDb();
+//        connect = database.connectDB();
 //
 //        try {
 //            prepare = connect.prepareStatement(sql);
@@ -890,64 +891,82 @@ public class dashboardController implements Initializable {
 //        }
 //    }
 //
-//    public void orderProductId() {
-//        String sql = "SELECT product_id FROM items WHERE status = 'Available'";
+    public void orderProductId() {
+        String sql = "SELECT product_id FROM items WHERE status = 'Available'";
+
+        connect = database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ObservableList listData = FXCollections.observableArrayList();
+
+            while (result.next()) {
+                listData.add(result.getString("product_id"));
+            }
+
+            order_productID.setItems(listData);
+            orderProductName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 //
-//        connect = database.connectDb();
-//
-//        try {
-//            prepare = connect.prepareStatement(sql);
-//            result = prepare.executeQuery();
-//
-//            ObservableList listData = FXCollections.observableArrayList();
-//
-//            while (result.next()) {
-//                listData.add(result.getString("product_id"));
-//            }
-//
-//            order_productID.setItems(listData);
-//
-//            orderProductName();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void orderProductName() {
-//        String sql = "SELECT product_name FROM items WHERE product_id = '" + order_productID.getSelectionModel().getSelectedItem() + "'";
-//
-//        connect = database.connectDb();
-//
-//        try {
-//            prepare = connect.prepareStatement(sql);
-//            result = prepare.executeQuery();
-//
-//            ObservableList listData = FXCollections.observableArrayList();
-//
-//            while (result.next()) {
-//                listData.add(result.getString("product_name"));
-//            }
-//
-//            order_productName.setItems(listData);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private SpinnerValueFactory<Integer> spinner;
-//
-//    public void orderSpinner() {
-//        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50, 0);
-//
-//        order_quantity.setValueFactory(spinner);
-//    }
-//
-//    private int qty;
-//
-//    public void orderQuantity() {
-//        qty = order_quantity.getValue();
-//    }
-//
+    public void orderProductName() {
+        String sql = "SELECT product_name FROM items WHERE product_id = '" + order_productID.getSelectionModel().getSelectedItem() + "'";
+
+        connect = database.connectDB();
+        System.out.println(sql);
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ObservableList listData = FXCollections.observableArrayList();
+
+            while (result.next()) {
+                listData.add(result.getString("product_name"));
+            }
+
+            order_productName.setItems(listData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void order_priceOne(){
+        String sql = "SELECT price FROM items WHERE product_id ='" + order_productID.getSelectionModel().getSelectedItem() + "' AND product_name ='" + order_productName.getSelectionModel().getSelectedItem() + "'";
+        connect = database.connectDB();
+        System.out.println(sql);
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ObservableList listData = FXCollections.observableArrayList();
+
+            while (result.next()) {
+                listData.add(result.getString("price"));
+            }
+
+            order_productName.setItems(listData);
+//            goods_productID.setText(catData.getProductId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private SpinnerValueFactory<Integer> spinner;
+
+    public void orderSpinner() {
+        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, 0);
+
+        order_quantity.setValueFactory(spinner);
+    }
+
+    private int qty;
+    public void orderQuantity() {
+        qty = order_quantity.getValue();
+    }
+
     public void switchForm(ActionEvent event) {
         if (event.getSource() == dash_Btn) {
             dash_form.setVisible(true);
@@ -971,21 +990,19 @@ public class dashboardController implements Initializable {
             goods_Btn.setStyle("-fx-background-color: #6ea8e1; -fx-text-fill: #fff; -fx-border-width: 0px;");
             dash_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
             order_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
-
             goodsShowData();
             goodsSearch();
         } else if (event.getSource() == order_Btn) {
             dash_form.setVisible(false);
             goods_form.setVisible(false);
             order_form.setVisible(true);
-
             order_Btn.setStyle("-fx-background-color: #6ea8e1; -fx-text-fill: #fff; -fx-border-width: 0px;");
             goods_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
             dash_Btn.setStyle("-fx-background-color: transparent; -fx-border-width: 1px; -fx-text-fill: #000;");
-
-//            orderProductId();
-//            orderProductName();
-//            orderSpinner();
+            orderProductId();
+            orderProductName();
+            order_priceOne();
+            orderSpinner();
 //            orderDisplayData();
 //            orderDisplayTotal();
         }
@@ -1063,10 +1080,10 @@ public class dashboardController implements Initializable {
         goodsStatus();
         goodsType();
         goodsShowData();
-//
-//        orderProductId();
-//        orderProductName();
-//        orderSpinner();
+        orderProductId();
+        orderProductName();
+        order_priceOne();
+        orderSpinner();
 //        orderDisplayData();
 //        orderDisplayTotal();
     }

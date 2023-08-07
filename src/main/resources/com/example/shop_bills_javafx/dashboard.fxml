@@ -305,14 +305,14 @@
                                           <Font name="Droid Sans" size="12.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="order_productID" layoutX="138.0" layoutY="43.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <ComboBox fx:id="order_productID" layoutX="138.0" layoutY="43.0" onMouseClicked="#orderProductId" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Label layoutX="50.0" layoutY="96.0" stylesheets="@dashboardDesign.css" text="Product Name : ">
                                        <font>
                                           <Font name="Droid Sans" size="12.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="order_productName" layoutX="138.0" layoutY="91.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Spinner fx:id="order_quantity" layoutX="138.0" layoutY="175.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <ComboBox fx:id="order_productName" layoutX="138.0" layoutY="91.0" onMouseClicked="#orderProductName" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <Spinner fx:id="order_quantity" layoutX="138.0" layoutY="175.0" onMouseClicked="#orderQuantity" styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Label layoutX="82.0" layoutY="180.0" stylesheets="@dashboardDesign.css" text="Quantity : ">
                                        <font>
                                           <Font name="Droid Sans" size="12.0" />
@@ -328,7 +328,7 @@
                                           <Font name="Droid Sans" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="order_priceOne" layoutX="138.0" layoutY="143.0" prefHeight="18.0" prefWidth="107.0" stylesheets="@dashboardDesign.css" text="₹ 0.0" />
+                                    <Label fx:id="order_priceOne" layoutX="138.0" layoutY="143.0" onMouseClicked="#order_priceOne" onMouseDragOver="#order_priceOne" onMouseDragged="#order_priceOne" prefHeight="18.0" prefWidth="107.0" stylesheets="@dashboardDesign.css" text="₹ 0.0" />
                                     <Label layoutX="94.0" layoutY="265.0" stylesheets="@dashboardDesign.css" text="Total : ">
                                        <font>
                                           <Font name="Droid Sans" size="14.0" />
