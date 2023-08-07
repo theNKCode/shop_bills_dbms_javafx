@@ -199,7 +199,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="goods_form" layoutX="1.0" layoutY="8.0" prefHeight="564.8" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="goods_form" layoutX="1.0" layoutY="8.0" prefHeight="564.8" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="7.0" prefHeight="527.0" prefWidth="278.0" stylesheets="@dashboardDesign.css" AnchorPane.topAnchor="7.0">
                                  <styleClass>
@@ -256,7 +256,7 @@
                                                 <Image url="@img/search.png" />
                                              </image>
                                           </ImageView>
-                                          <TextField fx:id="goods_search" layoutX="27.0" layoutY="1.0" onAction="#goodsSearch" onKeyTyped="#goodsSearch" prefHeight="26.0" prefWidth="245.0" promptText="Search..." styleClass="search" stylesheets="@dashboardDesign.css" />
+                                          <TextField fx:id="goods_search" layoutX="27.0" layoutY="1.0" onAction="#goodsSearch" onKeyPressed="#goodsSearch" onMouseClicked="#goodsSearch" prefHeight="26.0" prefWidth="245.0" promptText="Search..." styleClass="search" stylesheets="@dashboardDesign.css" />
                                        </children></AnchorPane>
                                     <TableView fx:id="goodsc_tableView" layoutX="14.0" layoutY="51.0" onMouseClicked="#goodsSelect" onSort="#goodsShowData" prefHeight="466.0" prefWidth="547.0" stylesheets="@dashboardDesign.css">
                                       <columns>
@@ -275,7 +275,7 @@
                               <Separator layoutX="296.0" orientation="VERTICAL" prefHeight="544.0" prefWidth="15.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="order_form" layoutY="3.0" prefHeight="564.8" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="order_form" layoutY="3.0" prefHeight="564.8" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="8.0" layoutY="8.0" prefHeight="546.0" prefWidth="552.0" stylesheets="@dashboardDesign.css">
                                  <styleClass>

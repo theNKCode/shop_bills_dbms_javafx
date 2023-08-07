@@ -1062,7 +1062,6 @@ public class dashboardController implements Initializable {
         displayUsername();
         goodsStatus();
         goodsType();
-
         goodsShowData();
 //
 //        orderProductId();
