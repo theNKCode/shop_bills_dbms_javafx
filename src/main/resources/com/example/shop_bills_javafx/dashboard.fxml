@@ -318,7 +318,7 @@
                                           <Font name="Droid Sans" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="order_add" layoutX="213.0" layoutY="220.0" mnemonicParsing="false" stylesheets="@dashboardDesign.css" text="Add">
+                                    <Button fx:id="order_add" layoutX="213.0" layoutY="220.0" mnemonicParsing="false" onAction="#orderAdd" stylesheets="@dashboardDesign.css" text="Add">
                                        <styleClass>
                                           <String fx:value="update-btn" />
                                           <String fx:value="shadow" />
